@@ -20,16 +20,19 @@ module control( clk, rst, count_in, count_start, g_out, y_out, r_out );
 
     reg    [1:0]  state, next_state;
 
-
+    //各色の時間を定義
     `define        GREEN_TIMES      3'd6
     `define        YELLOW_TIMES     3'd2
     `define        RED_TIMES        3'd4
 
+    //定数を定義。C言語のconst文のようなもの
     parameter [1:0] INIT     = 2'b00,
                     GREEN    = 2'b01,
                     YELLOW   = 2'b10,
                     RED      = 2'b11;
 
+    //順序回路
+    //next_stateを実際のステートマシンに代入
     always@( posedge clk ) begin
         if( rst == 1'b0 ) begin
             state <= INIT;
@@ -39,6 +42,8 @@ module control( clk, rst, count_in, count_start, g_out, y_out, r_out );
         end
     end
 
+    //組み合わせ回路
+    //nest_stateを決定
     always@( state, count_in ) begin
         count_start <= 1'b0;
         g_out <= 1'b0;
